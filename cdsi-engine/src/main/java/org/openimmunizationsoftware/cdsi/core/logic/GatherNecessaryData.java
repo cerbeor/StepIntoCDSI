@@ -23,8 +23,7 @@ public class GatherNecessaryData extends LogicStep {
 
     ForecastInput input = dataModel.getForecastInput();
     if (input == null) {
-      throw new InvalidInputException("forecastInput", "forecastInput", null,
-          "No ForecastInput has been set on the data model; the caller must adapt its input (web request, FITS test case, FHIR operation, etc.) into a ForecastInput before running the engine");
+      throw new IllegalStateException("No ForecastInput has been set on the data model; the caller must adapt its input (web request, FITS test case, FHIR operation, etc.) into a ForecastInput before running the engine");
     }
 
     Patient patient = new Patient();
