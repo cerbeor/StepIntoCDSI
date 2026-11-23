@@ -3,6 +3,7 @@ package org.openimmunizationsoftware.cdsi.core.logic;
 public enum LogicStepType {
 
   GATHER_NECESSARY_DATA("4.1", "Gather Necessary Data", false),
+  GATHER_NECESSARY_DATA_FOR_VALIDATION("4.1.1", "Gather Necessary Data without sending Exceptions for unrecognised codes", false),
   ORGANIZE_IMMUNIZATION_HISTORY("4.2", "Organize Immunization History", false),
   CREATE_RELEVANT_PATIENT_SERIES("4.3", "Create Relevant Patient Series", false),
   EVALUATE_AND_FORECAST_ALL_PATIENT_SERIES("4.4", "Evaluate and Forecast all Patient Series", false),

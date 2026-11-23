@@ -57,6 +57,23 @@ public class DataModel {
   // ForecastInput.VaccinationInput, populated in GatherNecessaryData.process().
   private Map<VaccineDoseAdministered, ForecastInput.VaccinationInput> vaccinationInputMap =
       new HashMap<VaccineDoseAdministered, ForecastInput.VaccinationInput>();
+  /**
+   * Experimental validation support: doses whose CVX code could not be resolved
+   * against the supporting data are not fatal. {@code GatherNecessaryData}
+   * registers the offending {@link org.openimmunizationsoftware.cdsi.core.domain.VaccineDoseAdministered}
+   * here with an explanatory {@link InvalidInputException} (naming the part, attribute
+   * and value) and skips the dose, so dependent projects can document wrong inputs
+   * instead of having the process interrupted.
+   */
+  private Map<VaccineDoseAdministered, InvalidInputException> invalidVaccineDoseMap =
+      new HashMap<VaccineDoseAdministered, InvalidInputException>();
+  /**
+   * Experimental validation support: observations whose code could not be resolved
+   * against the supporting data are registered here with an explanatory
+   * {@link InvalidInputException} and skipped, mirroring {@link #invalidVaccineDoseMap}.
+   */
+  private Map<ForecastInput.ObservationInput, InvalidInputException> invalidObservationInputMap =
+      new HashMap<ForecastInput.ObservationInput, InvalidInputException>();
 
   private List<Antigen> antigenSelectedList = null;
   private List<String> antigenLabelFilterList = null;
@@ -256,6 +273,22 @@ public class DataModel {
   public void setVaccinationInputMap(
       Map<VaccineDoseAdministered, ForecastInput.VaccinationInput> vaccinationInputMap) {
     this.vaccinationInputMap = vaccinationInputMap;
+  }
+
+  public Map<VaccineDoseAdministered, InvalidInputException> getInvalidVaccineDoseMap() {
+    return invalidVaccineDoseMap;
+  }
+
+  public void setInvalidVaccineDoseMap(Map<VaccineDoseAdministered, InvalidInputException> invalidVaccineDoseMap) {
+    this.invalidVaccineDoseMap = invalidVaccineDoseMap;
+  }
+
+  public Map<ForecastInput.ObservationInput, InvalidInputException> getInvalidObservationInputMap() {
+    return invalidObservationInputMap;
+  }
+
+  public void setInvalidObservationInputMap(Map<ForecastInput.ObservationInput, InvalidInputException> invalidObservationInputMap) {
+    this.invalidObservationInputMap = invalidObservationInputMap;
   }
 
   private Map<String, ClinicalGuidelineObservation> clinicalGuidelineObservationMap = new HashMap<String, ClinicalGuidelineObservation>();
