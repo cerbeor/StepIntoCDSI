@@ -2,6 +2,7 @@ package org.openimmunizationsoftware.cdsi.core.logic;
 
 import org.openimmunizationsoftware.cdsi.core.data.DataModel;
 import org.openimmunizationsoftware.cdsi.core.data.ForecastInput;
+import org.openimmunizationsoftware.cdsi.core.data.InvalidInputException;
 import org.openimmunizationsoftware.cdsi.core.domain.ImmunizationHistory;
 import org.openimmunizationsoftware.cdsi.core.domain.Observation;
 import org.openimmunizationsoftware.cdsi.core.domain.ObservationCode;
@@ -22,7 +23,7 @@ public class GatherNecessaryData extends LogicStep {
 
     ForecastInput input = dataModel.getForecastInput();
     if (input == null) {
-      throw new IllegalStateException(
+      throw new InvalidInputException("forecastInput", "forecastInput", null,
           "No ForecastInput has been set on the data model; the caller must adapt its input (web request, FITS test case, FHIR operation, etc.) into a ForecastInput before running the engine");
     }
 
@@ -55,7 +56,8 @@ public class GatherNecessaryData extends LogicStep {
       String cvxCode = v.getVaccineCvx();
       VaccineType cvx = dataModel.getCvxMap().get(cvxCode);
       if (cvx == null) {
-        throw new IllegalArgumentException("Unrecognized cvx code '" + cvxCode + "'");
+        throw new InvalidInputException("vaccination", "vaccineCvx", cvxCode,
+                "Unrecognized cvx code");
       }
       Vaccine vaccine = new Vaccine();
       vaccine.setVaccineType(cvx);
@@ -70,7 +72,8 @@ public class GatherNecessaryData extends LogicStep {
       }
       Observation observation = dataModel.getObservationMap().get(observationCodeValue);
       if (observation == null) {
-        throw new IllegalArgumentException("Unrecognized observation code '" + observationCodeValue + "'");
+        throw new InvalidInputException("observation", "observationCode", observationCodeValue,
+            "Unrecognized observation code");
       }
 
       PatientObservation patientObservation = new PatientObservation();
