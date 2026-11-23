@@ -119,6 +119,9 @@ public class LogicStepFactory {
     if (stepName.equals(LogicStepType.DETERMINE_CONTRAINDICATIONS)) {
       return new DetermineContraindications(dataModel);
     }
+    if (stepName.equals(LogicStepType.GATHER_NECESSARY_DATA_FOR_VALIDATION)) {
+      return new GatherNecessaryDataForValidation(dataModel);
+    }
     if (stepName.equals(LogicStepType.END)) {
       return new End(dataModel);
     }
